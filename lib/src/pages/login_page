@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+import 'package:tarea2_login_fh/src/utils/routes.dart';
+
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
+
+  final formKey = GlobalKey<FormState>();
+  final userController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+
+    
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'Login Sistemas Expertos',
+          style: TextStyle(color: Color.fromARGB(255, 255, 221, 0)),
+        ),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              const Image(
+                image: AssetImage('assets/logounah.png'),
+              ),
+              Form(
+                  key: formKey,
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: userController,
+                          decoration: const InputDecoration(
+                            label: Text('Correo Institucional'),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) return 'El campo está vacio';
+                            return null;
+                          },
+                        ),
+                        TextFormField(
+                          controller: passwordController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            label: Text('Contraseña'),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) return 'El campo está vacio';
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
+                  )),
+              Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    final bool validity =
+                        userController.text == 'fnhernandezi@unah.hn' &&
+                            passwordController.text == '20192000727';
+                    if (formKey.currentState!.validate() && validity) {
+                      Navigator.pushNamed(context, MyRoutes.welcome.name);
+                    } else {
+                      final snackBar = SnackBar(
+                        content: const Text('Correo o contraseña incorrescta. Intente de nuevo.'),
+                        action: SnackBarAction(
+                          label: 'Okay',
+                          onPressed: () {},
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  },
+                  child: const Text('Ingresar'),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
